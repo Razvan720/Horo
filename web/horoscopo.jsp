@@ -30,25 +30,53 @@
 
             <form action="horoscopo" method="POST" class="cont-form">
 
-                <input type="text" placeholder="Nombre" name="nombre" class="in-nombre">
+				<% ArrayList<String> meses = (ArrayList<String>) request.getAttribute("meses");
+					ArrayList<String> dias = (ArrayList<String>) request.getAttribute("dias");
+					
+					String dia = (String) request.getAttribute("dia");
+					String mes = (String) request.getAttribute("mes");
+					String nombre = (String) request.getAttribute("nombre");
+				%>
 
-                <% ArrayList<String> meses = (ArrayList<String>) request.getAttribute("meses");%>
-                <% ArrayList<String> dias = (ArrayList<String>) request.getAttribute("dias");%>
+				<% if (nombre == null) {
+						nombre = "";
+					}
+					if (dia == null){
+						dia = "1";
+					}
+					if (mes == null){
+						mes = "1";
+					}
+				%>
+
+                <input type="text" placeholder="Nombre" name="nombre" value="<%= nombre%>"class="in-nombre">
 
                 <div class="cont-fechas">
                     <div class="cont-dia">
                         <label for="dia">Dia </label>
                         <select name="dia" class="in-select">
-                            <% for (int i = 0; i < dias.size(); i++) {%>
-                            <option value="<%= dias.get(i)%>"><%= dias.get(i)%></option>
+							
+                            <% for (int i = 0; i < dias.size(); i++) {
+								String cadenaSelected = "";	
+								if (dia.equals(dias.get(i))) {
+										cadenaSelected = "selected";
+									}
+							%>
+                            <option value="<%= dias.get(i)%>"  <%= cadenaSelected %> ><%= dias.get(i)%></option>
                             <% }%>
+							
                         </select>
                     </div>
                     <div class="cont-mes">
                         <label for="mes">Mes </label>
                         <select name="mes" class="in-select">
-                            <% for (int i = 0; i < meses.size(); i++) {%>
-                            <option value="<%= meses.get(i)%>"><%= meses.get(i)%></option>
+                            <% for (int i = 0; i < meses.size(); i++) {
+								String cadenaSelected = "";	
+								if (mes.equals(meses.get(i))) {
+										cadenaSelected = "selected";
+									}
+							%>
+                            <option value="<%= meses.get(i)%>" <%= cadenaSelected %> ><%= meses.get(i)%></option>
                             <% }%>
                         </select>
                     </div>
@@ -62,7 +90,7 @@
 
             <div class="cont-signo">
                 <% String signo = (String) request.getAttribute("signo");
-                    if (signo != null) {%>
+					if (signo != null) {%>
                 <h2> Eres <%= signo%> </h2>
                 <img src="imagenes/<%= signo%>.png" class="img-signo"> 
                 <% }%>
